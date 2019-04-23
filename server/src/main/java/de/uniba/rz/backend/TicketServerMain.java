@@ -21,21 +21,22 @@ public class TicketServerMain {
 			new Thread(implementation).start();
 		}
 
-		BufferedReader shutdownReader = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Press enter to shutdown system.");
-		shutdownReader.readLine();
-		System.out.println("Shutting down...");
-
-		// Shuttung down all remote access implementations
-		for (RemoteAccess implementation : remoteAccessImplementations) {
-			implementation.shutdown();
+		try (BufferedReader shutdownReader = new BufferedReader(new InputStreamReader(System.in))) {
+			System.out.println("Press enter to shutdown system.");
+			shutdownReader.readLine();
+			System.out.println("Shutting down...");
+	
+			// Shuttung down all remote access implementations
+			for (RemoteAccess implementation : remoteAccessImplementations) {
+				implementation.shutdown();
+			}
+			System.out.println("completed. Bye!");
 		}
-		System.out.println("completed. Bye!");
 	}
 
 	private static List<RemoteAccess> getAvailableRemoteAccessImplementations(String[] args) {
 		List<RemoteAccess> implementations = new ArrayList<>();
-
+		
 		// TODO Add your implementations of the RemoteAccess interface
 		// e.g.:
 		// implementations.add(new UdpRemoteAccess(args[0], args[1]));
