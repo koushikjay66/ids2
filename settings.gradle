@@ -1,4 +1,4 @@
-rootProject.name = 'idistrysys'
+rootProject.name = 'idistrsys'
 
 include ':client'
 include ':server'
