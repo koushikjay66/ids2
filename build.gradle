@@ -23,17 +23,61 @@ allprojects {
 		}
 	}
 	
-	if( it.name == 'client' || it.name == 'server' ) {
+	if( it.name == 'client' ) {
+    	apply plugin: 'application'
     	
+    	project.ext.defaultgenerateddir = file('src/generated/java')
+		project.ext.defaultgenerateddir.mkdirs()
+    	
+    	sourceSets {
+		    main {
+		        java {
+		            srcDir 'src/main/java'
+		            srcDir project.ext.defaultgenerateddir
+		        }
+		    }
+		}
+    	
+    	configurations {
+			wstools
+		}
+	
+    	dependencies {
+    		compile project(':shared')
+    		wstools group: 'org.glassfish.metro', name: 'webservices-tools', version: '2.4.3'
+    	}
+    	
+		task wsimport(group: "WS tools", description: "execute wsimport task with a given wsdl location") {
+			doLast{
+				if (!project.hasProperty('wsdl')) {
+					throw new GradleException('No wsdl location provided, please provide a wsdl location such as: \"wsimport -Pwsdl=\"http://localhost:8080/MyService?wsdl\"\"')
+				} else {
+					ant.taskdef(name: 'wsimport', classname: 'com.sun.tools.ws.ant.WsImport', classpath: configurations.wstools.asPath)
+					ant.wsimport(wsdl: wsdl, 
+						 		sourcedestdir: project.ext.defaultgenerateddir, 
+						 		verbose: true)
+				}
+			}
+		}
+    }
+    
+    if (it.name == 'server') {
     	apply plugin: 'application'
     	
     	dependencies {
     		compile project(':shared')
     	}
     }
+    
+    
 
     dependencies {
         
+        // for jax-ws
+        compile group: 'org.glassfish.metro', name: 'metro-runtime-api', version: '2.4.3'
+        compile group: 'org.glassfish.metro', name: 'metro-commons', version: '2.4.3'
+        compile group: 'org.glassfish', name: 'javax.servlet', version: '3.1.1'
+        // for grpc
 		compile 'io.grpc:grpc-netty-shaded:1.20.0'
 	    compile 'io.grpc:grpc-protobuf:1.20.0'
 	    compile 'io.grpc:grpc-stub:1.20.0'
@@ -43,6 +87,7 @@ allprojects {
     }
 
 }
+
 
 project(':client') {
 	application {
