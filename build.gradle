@@ -44,7 +44,7 @@ allprojects {
 	
     	dependencies {
     		compile project(':shared')
-    		wstools group: 'org.glassfish.metro', name: 'webservices-tools', version: '2.4.3'
+    		wstools group: 'com.sun.xml.ws', name: 'jaxws-tools', version: '2.3.2'
     	}
     	
 		task wsimport(group: "WS tools", description: "execute wsimport task with a given wsdl location") {
@@ -74,9 +74,7 @@ allprojects {
     dependencies {
         
         // for jax-ws
-        compile group: 'org.glassfish.metro', name: 'metro-runtime-api', version: '2.4.3'
-        compile group: 'org.glassfish.metro', name: 'metro-commons', version: '2.4.3'
-        compile group: 'org.glassfish', name: 'javax.servlet', version: '3.1.1'
+        compile group: 'com.sun.xml.ws', name: 'rt', version: '2.3.2'
         // for grpc
 		compile 'io.grpc:grpc-netty-shaded:1.20.0'
 	    compile 'io.grpc:grpc-protobuf:1.20.0'
