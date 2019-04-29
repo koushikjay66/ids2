@@ -55,6 +55,7 @@ allprojects {
 					ant.taskdef(name: 'wsimport', classname: 'com.sun.tools.ws.ant.WsImport', classpath: configurations.wstools.asPath)
 					ant.wsimport(wsdl: wsdl, 
 						 		sourcedestdir: project.ext.defaultgenerateddir, 
+								xnocompile: true,
 						 		verbose: true)
 				}
 			}
