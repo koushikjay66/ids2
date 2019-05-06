@@ -23,7 +23,7 @@ allprojects {
 		}
 	}
 	
-	if( it.name == 'client' ) {
+	if( it.name == 'client' || it.name == 'searchservice') {
     	apply plugin: 'application'
     	
     	project.ext.defaultgenerateddir = file('src/generated/java')
