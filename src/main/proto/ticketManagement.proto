@@ -6,14 +6,70 @@ option java_outer_classname = "TicketManagement";
 
 option objc_class_prefix = "RTG";
 
-service HelloService{
-    rpc Hello(HelloRequest) returns (HelloResponse) {};
+
+
+
+
+/*
+Base message for TicketData . Preferabley both client/stub and server can be benifitted from this
+*/
+
+message TicketData{
+int32 Id = 1 ;
+string reporter =2;
+string topic =3;
+string description =4;
+
+enum Type{
+ TASK =0;
+ ENHANCEMENT=1;
+ BUG=2;
+ QUESTION=3;
+ }
+Type type=5;
+enum Priority{
+CRITICAL=0;
+MAJOR=1;
+MINOR=2;
+}
+Priority priority=6;
+enum Status{
+NEW=0;
+ACCEPTED=1;
+REJECTED=2;
+CLOSED=3;
+}
+Status status=7;
 }
 
-message HelloRequest {
-    string hello = 1;
+/*
+Request for ticket with ID 
+*/
+message TicketIDRequest{
+	int32 Ticketid = 1;
 }
 
-message HelloResponse {
-    string ciao = 1;
+/*
+Empty request when actually client Request to get all the tickets
+*/
+message TicketRequestEmpty{
+	int32 ID = 1;
+}
+
+/*
+	Response when client requested to get all ticket
+*/
+message GetAllTicketResponse{
+	repeated  TicketData ticketData =1;
+}
+
+
+/*
+Now writing down the service class. Service will be used by the server
+*/
+
+service TicketService{
+ rpc createTicket(TicketData) returns (TicketData){}
+ rpc getAllTicket(TicketRequestEmpty) returns(GetAllTicketResponse){}
+ rpc SearchTicketById(TicketIDRequest) returns(TicketData){}
 }
