@@ -63,16 +63,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		Ticket ticket = null;
 
 		for(TicketData t:response.getTicketDataList() ) {
-			ticket = new Ticket();
-			ticket.setDescription(t.getDescription());
-			ticket.setId(t.getId());
-			ticket.setPriority(Priority.values()[t.getPriorityValue()]);
-			ticket.setReporter(t.getReporter());
-			ticket.setStatus(Status.values()[t.getStatusValue()]);
-			ticket.setTopic(t.getTopic());
-			ticket.setType(Type.values()[t.getTypeValue()]);
-			ticketList.add(ticket);
-
+			ticketList.add(TicketData2Ticket(t));
 		}
 
 		return ticketList;

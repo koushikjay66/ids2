@@ -1,6 +1,8 @@
 package de.uniba.rz.backend;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.uniba.rz.entities.Priority;
 import de.uniba.rz.entities.Ticket;
@@ -44,19 +46,15 @@ public class TicketService extends TicketServiceImplBase{
 	@Override
 	public void getAllTicket(TicketRequestEmpty request, StreamObserver<GetAllTicketResponse> responseObserver) {
 
-		System.out.println("Requested to get all Ticket..A fake thing is being generated");
-		Builder x = TicketData.newBuilder().setDescription("A Sample Ticket");
-		x.setId(0);
-		x.setPriority(de.uniba.rz.io.rpc.TicketData.Priority.CRITICAL);
-		x.setReporter("koushikjay66");
-		x.setStatus(Status.ACCEPTED);
-		x.setTopic("Testing Faze");
-		x.setType(Type.BUG);
-
-		TicketData y=x.build();
-		System.out.println(y.getDescription());
-
-		GetAllTicketResponse response = GetAllTicketResponse.newBuilder().addTicketData(y).build();
+		System.out.println("Requested to get all Ticket.");
+		List<TicketData> ticktDataList = new ArrayList<TicketData>();
+		for(Ticket t : SimpleTicketStore.getTickets()) {
+			ticktDataList.add(Ticket2TicketData(t));
+			
+		}
+		Iterable<TicketData> ticktDataIterable=ticktDataList;
+		
+		GetAllTicketResponse response = GetAllTicketResponse.newBuilder().addAllTicketData(ticktDataIterable).build();
 		responseObserver.onNext(response);
 		responseObserver.onCompleted();
 	}
