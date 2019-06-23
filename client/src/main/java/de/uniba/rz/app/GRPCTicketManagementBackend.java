@@ -13,6 +13,7 @@ import de.uniba.rz.io.rpc.GetAllTicketResponse;
 import de.uniba.rz.io.rpc.TicketData;
 import de.uniba.rz.io.rpc.TicketRequestEmpty;
 import de.uniba.rz.io.rpc.TicketServiceGrpc;
+import de.uniba.rz.io.rpc.TicketData.Builder;
 import de.uniba.rz.io.rpc.TicketServiceGrpc.TicketServiceBlockingStub;
 import de.uniba.rz.io.rpc.TicketServiceGrpc.TicketServiceStub;
 import io.grpc.ManagedChannel;
@@ -45,8 +46,12 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 	public Ticket createNewTicket(String reporter, String topic, String description, Type type, Priority priority)
 			throws TicketException {
 		// TODO Auto-generated method stub
+		System.out.println("Creating new Ticket Now!");
+		Ticket t = new Ticket(0,reporter , topic , description, type , priority);
 
-		return null;
+		TicketData tData = Ticket2TicketData(t);
+		tData = this.syncStub.createTicket(tData);
+		return TicketData2Ticket(tData);
 	}
 
 	@Override
@@ -97,4 +102,35 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		return null;
 	}
 
+	/**
+	 * Helper Method ticket to TicketData . For GRPC
+	 */
+
+	private TicketData Ticket2TicketData(Ticket t) {
+
+		Builder ticketBuilder = TicketData.newBuilder();
+		ticketBuilder.setDescription(t.getDescription());
+		ticketBuilder.setId(t.getId());
+		ticketBuilder.setPriority(de.uniba.rz.io.rpc.TicketData.Priority.values()[t.getPriority().ordinal()]);
+		ticketBuilder.setReporter(t.getReporter());
+		ticketBuilder.setStatus(de.uniba.rz.io.rpc.TicketData.Status.values()[t.getStatus().ordinal()]);
+		ticketBuilder.setTopic(t.getTopic());
+		ticketBuilder.setType(de.uniba.rz.io.rpc.TicketData.Type.values()[t.getType().ordinal()]);
+		return ticketBuilder.build();
+
+	}
+
+
+	private Ticket TicketData2Ticket(TicketData t) {
+		Ticket ticket = new Ticket();
+		ticket.setDescription(t.getDescription());
+		ticket.setId(t.getId());
+		ticket.setPriority(Priority.values()[t.getPriorityValue()]);
+		ticket.setReporter(t.getReporter());
+		ticket.setStatus(Status.values()[t.getStatusValue()]);
+		ticket.setTopic(t.getTopic());
+		ticket.setType(Type.values()[t.getTypeValue()]);
+		
+		return ticket;
+	}
 }
