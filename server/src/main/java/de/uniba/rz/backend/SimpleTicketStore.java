@@ -1,7 +1,9 @@
 package de.uniba.rz.backend;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import de.uniba.rz.entities.Priority;
 import de.uniba.rz.entities.Status;
@@ -20,8 +22,11 @@ import de.uniba.rz.entities.Type;
  */
 public class SimpleTicketStore implements TicketStore {
 
+	private static HashMap<Integer, Ticket> TicketDump = new HashMap<Integer, Ticket>();
+	
 	private int nextTicketId = 0;
 	private List<Ticket> ticketList = new ArrayList<>();
+	private static AtomicInteger TicketID = new AtomicInteger();
 
 	@Override
 	public Ticket storeNewTicket(String reporter, String topic, String description, Type type, Priority priority) {
@@ -40,8 +45,35 @@ public class SimpleTicketStore implements TicketStore {
 		}
 	}
 
+	
+	/*
+	 * Synchronized method to get All Tickets. used this "synchronized" keyword so this is thread safe. Atleast from stack overflow!! 
+	 */
+	public static synchronized List<Ticket> getTickets(){
+		
+		return new ArrayList<Ticket>(TicketDump.values());
+	}
+	
+	
+	public static synchronized Ticket CreateTicket(String reporter, String topic , Status status , String description , Type type , Priority priority) {
+		int id = TicketID.getAndIncrement();
+		Ticket t = new Ticket();
+		t.setId(id);
+		t.setReporter(reporter);
+		t.setTopic(topic);
+		t.setStatus(status);
+		t.setDescription(description);
+		t.setType(type);
+		t.setPriority(priority);
+		SimpleTicketStore.TicketDump.put(id, t);
+		return t;
+	}
+
 	@Override
 	public List<Ticket> getAllTickets() {
-		return ticketList;
+		// TODO Auto-generated method stub
+		return null;
 	}
+	
+	
 }

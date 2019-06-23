@@ -56,6 +56,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		GetAllTicketResponse response = this.syncStub.getAllTicket(TicketRequestEmpty.newBuilder().setID(0).build());
 		List<Ticket> ticketList = new ArrayList<Ticket>();
 		Ticket ticket = null;
+
 		for(TicketData t:response.getTicketDataList() ) {
 			ticket = new Ticket();
 			ticket.setDescription(t.getDescription());
