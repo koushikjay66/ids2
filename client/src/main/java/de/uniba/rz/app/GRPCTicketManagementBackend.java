@@ -16,6 +16,7 @@ import de.uniba.rz.io.rpc.TicketServiceGrpc;
 import de.uniba.rz.io.rpc.TicketData.Builder;
 import de.uniba.rz.io.rpc.TicketServiceGrpc.TicketServiceBlockingStub;
 import de.uniba.rz.io.rpc.TicketServiceGrpc.TicketServiceStub;
+import de.uniba.rz.io.rpc.updateTicket;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -60,8 +61,8 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		System.out.println("Calling to get all tickets");
 		GetAllTicketResponse response = this.syncStub.getAllTicket(TicketRequestEmpty.newBuilder().setID(0).build());
 		List<Ticket> ticketList = new ArrayList<Ticket>();
-		Ticket ticket = null;
-
+		Ticket ticket = new Ticket();
+		System.out.println(response.getTicketDataList().size());
 		for(TicketData t:response.getTicketDataList() ) {
 			ticketList.add(TicketData2Ticket(t));
 		}
@@ -78,19 +79,31 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 	@Override
 	public Ticket acceptTicket(int id) throws TicketException {
 		// TODO Auto-generated method stub
-		return null;
+		de.uniba.rz.io.rpc.updateTicket.Builder b = updateTicket.newBuilder();
+		b.setID(id);
+		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.ACCEPTED);
+		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
+		return TicketData2Ticket(tdata);
 	}
 
 	@Override
 	public Ticket rejectTicket(int id) throws TicketException {
 		// TODO Auto-generated method stub
-		return null;
+		de.uniba.rz.io.rpc.updateTicket.Builder b = updateTicket.newBuilder();
+		b.setID(id);
+		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.REJECTED);
+		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
+		return TicketData2Ticket(tdata);
 	}
 
 	@Override
 	public Ticket closeTicket(int id) throws TicketException {
 		// TODO Auto-generated method stub
-		return null;
+		de.uniba.rz.io.rpc.updateTicket.Builder b = updateTicket.newBuilder();
+		b.setID(id);
+		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.CLOSED);
+		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
+		return TicketData2Ticket(tdata);
 	}
 
 	/**
@@ -121,7 +134,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		ticket.setStatus(Status.values()[t.getStatusValue()]);
 		ticket.setTopic(t.getTopic());
 		ticket.setType(Type.values()[t.getTypeValue()]);
-		
+
 		return ticket;
 	}
 }

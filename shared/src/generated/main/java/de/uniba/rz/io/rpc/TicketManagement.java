@@ -34,6 +34,11 @@ public final class TicketManagement {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_GetAllTicketResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_updateTicket_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_updateTicket_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -55,13 +60,18 @@ public final class TicketManagement {
       "CTED\020\002\022\n\n\006CLOSED\020\003\"#\n\017TicketIDRequest\022\020\n" +
       "\010Ticketid\030\001 \001(\005\" \n\022TicketRequestEmpty\022\n\n" +
       "\002ID\030\001 \001(\005\"7\n\024GetAllTicketResponse\022\037\n\ntic" +
-      "ketData\030\001 \003(\0132\013.TicketData2\256\001\n\rTicketSer" +
-      "vice\022*\n\014createTicket\022\013.TicketData\032\013.Tick" +
-      "etData\"\000\022<\n\014getAllTicket\022\023.TicketRequest" +
-      "Empty\032\025.GetAllTicketResponse\"\000\0223\n\020Search" +
-      "TicketById\022\020.TicketIDRequest\032\013.TicketDat" +
-      "a\"\000B.\n\022de.uniba.rz.io.rpcB\020TicketManagem" +
-      "entP\001\242\002\003RTGb\006proto3"
+      "ketData\030\001 \003(\0132\013.TicketData\"{\n\014updateTick" +
+      "et\022\n\n\002ID\030\001 \001(\005\022$\n\006status\030\002 \001(\0162\024.updateT" +
+      "icket.Status\"9\n\006Status\022\007\n\003NEW\020\000\022\014\n\010ACCEP" +
+      "TED\020\001\022\014\n\010REJECTED\020\002\022\n\n\006CLOSED\020\0032\351\001\n\rTick" +
+      "etService\022*\n\014createTicket\022\013.TicketData\032\013" +
+      ".TicketData\"\000\022<\n\014getAllTicket\022\023.TicketRe" +
+      "questEmpty\032\025.GetAllTicketResponse\"\000\0223\n\020S" +
+      "earchTicketById\022\020.TicketIDRequest\032\013.Tick" +
+      "etData\"\000\0229\n\031updateTicketStatusService\022\r." +
+      "updateTicket\032\013.TicketData\"\000B.\n\022de.uniba." +
+      "rz.io.rpcB\020TicketManagementP\001\242\002\003RTGb\006pro" +
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -99,6 +109,12 @@ public final class TicketManagement {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetAllTicketResponse_descriptor,
         new java.lang.String[] { "TicketData", });
+    internal_static_updateTicket_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_updateTicket_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_updateTicket_descriptor,
+        new java.lang.String[] { "ID", "Status", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

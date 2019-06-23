@@ -63,6 +63,16 @@ message GetAllTicketResponse{
 	repeated  TicketData ticketData =1;
 }
 
+message updateTicket{
+int32 ID =1;
+enum Status{
+NEW=0;
+ACCEPTED=1;
+REJECTED=2;
+CLOSED=3;
+}
+Status status=2;
+}
 
 /*
 Now writing down the service class. Service will be used by the server
@@ -72,4 +82,5 @@ service TicketService{
  rpc createTicket(TicketData) returns (TicketData){}
  rpc getAllTicket(TicketRequestEmpty) returns(GetAllTicketResponse){}
  rpc SearchTicketById(TicketIDRequest) returns(TicketData){}
+ rpc updateTicketStatusService(updateTicket) returns(TicketData){}
 }

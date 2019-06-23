@@ -54,7 +54,7 @@ public class SimpleTicketStore implements TicketStore {
 		return new ArrayList<Ticket>(TicketDump.values());
 	}
 	
-	
+
 	public static synchronized Ticket CreateTicket(String reporter, String topic , Status status , String description , Type type , Priority priority) {
 		int id = TicketID.getAndIncrement();
 		Ticket t = new Ticket();
@@ -69,6 +69,15 @@ public class SimpleTicketStore implements TicketStore {
 		return t;
 	}
 
+	
+	public static synchronized Ticket UpdateStatus(int id , Status status) {
+		Ticket t =TicketDump.get(id);
+
+		if(t!=null) {
+			t.setStatus(status);
+		}
+		return t;
+	}
 	@Override
 	public List<Ticket> getAllTickets() {
 		// TODO Auto-generated method stub

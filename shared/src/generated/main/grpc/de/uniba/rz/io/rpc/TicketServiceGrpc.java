@@ -123,6 +123,38 @@ public final class TicketServiceGrpc {
      return getSearchTicketByIdMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<de.uniba.rz.io.rpc.updateTicket,
+      de.uniba.rz.io.rpc.TicketData> getUpdateTicketStatusServiceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "updateTicketStatusService",
+      requestType = de.uniba.rz.io.rpc.updateTicket.class,
+      responseType = de.uniba.rz.io.rpc.TicketData.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<de.uniba.rz.io.rpc.updateTicket,
+      de.uniba.rz.io.rpc.TicketData> getUpdateTicketStatusServiceMethod() {
+    io.grpc.MethodDescriptor<de.uniba.rz.io.rpc.updateTicket, de.uniba.rz.io.rpc.TicketData> getUpdateTicketStatusServiceMethod;
+    if ((getUpdateTicketStatusServiceMethod = TicketServiceGrpc.getUpdateTicketStatusServiceMethod) == null) {
+      synchronized (TicketServiceGrpc.class) {
+        if ((getUpdateTicketStatusServiceMethod = TicketServiceGrpc.getUpdateTicketStatusServiceMethod) == null) {
+          TicketServiceGrpc.getUpdateTicketStatusServiceMethod = getUpdateTicketStatusServiceMethod = 
+              io.grpc.MethodDescriptor.<de.uniba.rz.io.rpc.updateTicket, de.uniba.rz.io.rpc.TicketData>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "TicketService", "updateTicketStatusService"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  de.uniba.rz.io.rpc.updateTicket.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  de.uniba.rz.io.rpc.TicketData.getDefaultInstance()))
+                  .setSchemaDescriptor(new TicketServiceMethodDescriptorSupplier("updateTicketStatusService"))
+                  .build();
+          }
+        }
+     }
+     return getUpdateTicketStatusServiceMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -171,6 +203,13 @@ public final class TicketServiceGrpc {
       asyncUnimplementedUnaryCall(getSearchTicketByIdMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void updateTicketStatusService(de.uniba.rz.io.rpc.updateTicket request,
+        io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.TicketData> responseObserver) {
+      asyncUnimplementedUnaryCall(getUpdateTicketStatusServiceMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -194,6 +233,13 @@ public final class TicketServiceGrpc {
                 de.uniba.rz.io.rpc.TicketIDRequest,
                 de.uniba.rz.io.rpc.TicketData>(
                   this, METHODID_SEARCH_TICKET_BY_ID)))
+          .addMethod(
+            getUpdateTicketStatusServiceMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                de.uniba.rz.io.rpc.updateTicket,
+                de.uniba.rz.io.rpc.TicketData>(
+                  this, METHODID_UPDATE_TICKET_STATUS_SERVICE)))
           .build();
     }
   }
@@ -239,6 +285,14 @@ public final class TicketServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getSearchTicketByIdMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void updateTicketStatusService(de.uniba.rz.io.rpc.updateTicket request,
+        io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.TicketData> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getUpdateTicketStatusServiceMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -278,6 +332,13 @@ public final class TicketServiceGrpc {
     public de.uniba.rz.io.rpc.TicketData searchTicketById(de.uniba.rz.io.rpc.TicketIDRequest request) {
       return blockingUnaryCall(
           getChannel(), getSearchTicketByIdMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public de.uniba.rz.io.rpc.TicketData updateTicketStatusService(de.uniba.rz.io.rpc.updateTicket request) {
+      return blockingUnaryCall(
+          getChannel(), getUpdateTicketStatusServiceMethod(), getCallOptions(), request);
     }
   }
 
@@ -322,11 +383,20 @@ public final class TicketServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getSearchTicketByIdMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<de.uniba.rz.io.rpc.TicketData> updateTicketStatusService(
+        de.uniba.rz.io.rpc.updateTicket request) {
+      return futureUnaryCall(
+          getChannel().newCall(getUpdateTicketStatusServiceMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_TICKET = 0;
   private static final int METHODID_GET_ALL_TICKET = 1;
   private static final int METHODID_SEARCH_TICKET_BY_ID = 2;
+  private static final int METHODID_UPDATE_TICKET_STATUS_SERVICE = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -355,6 +425,10 @@ public final class TicketServiceGrpc {
           break;
         case METHODID_SEARCH_TICKET_BY_ID:
           serviceImpl.searchTicketById((de.uniba.rz.io.rpc.TicketIDRequest) request,
+              (io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.TicketData>) responseObserver);
+          break;
+        case METHODID_UPDATE_TICKET_STATUS_SERVICE:
+          serviceImpl.updateTicketStatusService((de.uniba.rz.io.rpc.updateTicket) request,
               (io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.TicketData>) responseObserver);
           break;
         default:
@@ -421,6 +495,7 @@ public final class TicketServiceGrpc {
               .addMethod(getCreateTicketMethod())
               .addMethod(getGetAllTicketMethod())
               .addMethod(getSearchTicketByIdMethod())
+              .addMethod(getUpdateTicketStatusServiceMethod())
               .build();
         }
       }

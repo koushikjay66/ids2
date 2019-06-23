@@ -1,16 +1,14 @@
 package de.uniba.rz.backend;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import de.uniba.rz.entities.Priority;
+import de.uniba.rz.entities.Status;
 import de.uniba.rz.entities.Ticket;
 import de.uniba.rz.io.rpc.GetAllTicketResponse;
 import de.uniba.rz.io.rpc.TicketData;
 import de.uniba.rz.io.rpc.TicketData.Builder;
-import de.uniba.rz.io.rpc.TicketData.Status;
-import de.uniba.rz.io.rpc.TicketData.Type;
 import de.uniba.rz.io.rpc.TicketIDRequest;
 import de.uniba.rz.io.rpc.TicketRequestEmpty;
 import de.uniba.rz.io.rpc.TicketServiceGrpc.TicketServiceImplBase;
@@ -65,6 +63,23 @@ public class TicketService extends TicketServiceImplBase{
 
 	}
 
+	
+	@Override
+	public void updateTicketStatusService(de.uniba.rz.io.rpc.updateTicket request,
+	        io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.TicketData> responseObserver) {
+		System.out.println("Requested to update ticket status");
+		
+		Ticket t =SimpleTicketStore.UpdateStatus(request.getID(), Status.values()[request.getStatusValue()]);
+		
+		if(t==null) {
+			t=new Ticket();
+		}
+		TicketData tdata = Ticket2TicketData(t);
+		
+		responseObserver.onNext(tdata);
+		responseObserver.onCompleted();
+		
+	}
 	/**
 	 * Helper Method ticket to TicketData . For GRPC
 	 */
