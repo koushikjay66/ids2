@@ -72,6 +72,8 @@ public class Main {
 			// return new UdpTicketManagementBackend(host, port);
 
 			// Default case for unknown implentations
+			case "grpc":
+				return new GRPCTicketManagementBackend(args[1], args[2]);
 			default:
 				System.out.println("Unknown backend type. Using local backend implementation.");
 				return new LocalTicketManagementBackend();

@@ -39,6 +39,7 @@ public class TicketService extends TicketServiceImplBase{
 		x.setType(Type.BUG);
 
 		TicketData y=x.build();
+		System.out.println(y.getDescription());
 
 		GetAllTicketResponse response = GetAllTicketResponse.newBuilder().addTicketData(y).build();
 		responseObserver.onNext(response);
