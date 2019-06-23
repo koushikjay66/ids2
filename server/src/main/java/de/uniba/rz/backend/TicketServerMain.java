@@ -40,7 +40,7 @@ public class TicketServerMain {
 		// TODO Add your implementations of the RemoteAccess interface
 		// e.g.:
 		// implementations.add(new UdpRemoteAccess(args[0], args[1]));
-
+         implementations.add(new GRPCTicketServer(args[1]));
 		return implementations;
 	}
 }
