@@ -42,7 +42,16 @@ public class GRPCTicketServer implements RemoteAccess {
 	@Override
 	public void shutdown() {
 		// TODO Auto-generated method stub
-		
+		if(!this.server.isShutdown()) {
+			
+			try {
+				this.server.shutdown().awaitTermination();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				System.err.println("Error in shutting down server");
+				//e.printStackTrace();
+			}
+		}
 
 	}
 
