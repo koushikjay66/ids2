@@ -29,6 +29,7 @@ public class GRPCTicketServer implements RemoteAccess {
 	public void prepareStartup(TicketStore ticketStore) {
 		// TODO Auto-generated method stub
 		try {
+			
 			this.server.start();
 			System.out.println("Successfully Started server at port :"+ this.server.getPort());
 		} catch (IOException e) {

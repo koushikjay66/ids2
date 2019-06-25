@@ -74,6 +74,10 @@ CLOSED=3;
 Status status=2;
 }
 
+message AutoNewTicketRequest{
+ int32 max_ticket_id =1;
+}
+
 /*
 Now writing down the service class. Service will be used by the server
 */
@@ -83,4 +87,5 @@ service TicketService{
  rpc getAllTicket(TicketRequestEmpty) returns(GetAllTicketResponse){}
  rpc SearchTicketById(TicketIDRequest) returns(TicketData){}
  rpc updateTicketStatusService(updateTicket) returns(TicketData){}
+ rpc StreamNewTicket(stream AutoNewTicketRequest) returns(stream GetAllTicketResponse){}
 }

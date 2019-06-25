@@ -155,6 +155,38 @@ public final class TicketServiceGrpc {
      return getUpdateTicketStatusServiceMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<de.uniba.rz.io.rpc.AutoNewTicketRequest,
+      de.uniba.rz.io.rpc.GetAllTicketResponse> getStreamNewTicketMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "StreamNewTicket",
+      requestType = de.uniba.rz.io.rpc.AutoNewTicketRequest.class,
+      responseType = de.uniba.rz.io.rpc.GetAllTicketResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+  public static io.grpc.MethodDescriptor<de.uniba.rz.io.rpc.AutoNewTicketRequest,
+      de.uniba.rz.io.rpc.GetAllTicketResponse> getStreamNewTicketMethod() {
+    io.grpc.MethodDescriptor<de.uniba.rz.io.rpc.AutoNewTicketRequest, de.uniba.rz.io.rpc.GetAllTicketResponse> getStreamNewTicketMethod;
+    if ((getStreamNewTicketMethod = TicketServiceGrpc.getStreamNewTicketMethod) == null) {
+      synchronized (TicketServiceGrpc.class) {
+        if ((getStreamNewTicketMethod = TicketServiceGrpc.getStreamNewTicketMethod) == null) {
+          TicketServiceGrpc.getStreamNewTicketMethod = getStreamNewTicketMethod = 
+              io.grpc.MethodDescriptor.<de.uniba.rz.io.rpc.AutoNewTicketRequest, de.uniba.rz.io.rpc.GetAllTicketResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "TicketService", "StreamNewTicket"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  de.uniba.rz.io.rpc.AutoNewTicketRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  de.uniba.rz.io.rpc.GetAllTicketResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new TicketServiceMethodDescriptorSupplier("StreamNewTicket"))
+                  .build();
+          }
+        }
+     }
+     return getStreamNewTicketMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -210,6 +242,13 @@ public final class TicketServiceGrpc {
       asyncUnimplementedUnaryCall(getUpdateTicketStatusServiceMethod(), responseObserver);
     }
 
+    /**
+     */
+    public io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.AutoNewTicketRequest> streamNewTicket(
+        io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.GetAllTicketResponse> responseObserver) {
+      return asyncUnimplementedStreamingCall(getStreamNewTicketMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -240,6 +279,13 @@ public final class TicketServiceGrpc {
                 de.uniba.rz.io.rpc.updateTicket,
                 de.uniba.rz.io.rpc.TicketData>(
                   this, METHODID_UPDATE_TICKET_STATUS_SERVICE)))
+          .addMethod(
+            getStreamNewTicketMethod(),
+            asyncBidiStreamingCall(
+              new MethodHandlers<
+                de.uniba.rz.io.rpc.AutoNewTicketRequest,
+                de.uniba.rz.io.rpc.GetAllTicketResponse>(
+                  this, METHODID_STREAM_NEW_TICKET)))
           .build();
     }
   }
@@ -292,6 +338,14 @@ public final class TicketServiceGrpc {
         io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.TicketData> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getUpdateTicketStatusServiceMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.AutoNewTicketRequest> streamNewTicket(
+        io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.GetAllTicketResponse> responseObserver) {
+      return asyncBidiStreamingCall(
+          getChannel().newCall(getStreamNewTicketMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -397,6 +451,7 @@ public final class TicketServiceGrpc {
   private static final int METHODID_GET_ALL_TICKET = 1;
   private static final int METHODID_SEARCH_TICKET_BY_ID = 2;
   private static final int METHODID_UPDATE_TICKET_STATUS_SERVICE = 3;
+  private static final int METHODID_STREAM_NEW_TICKET = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -441,6 +496,9 @@ public final class TicketServiceGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_STREAM_NEW_TICKET:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.streamNewTicket(
+              (io.grpc.stub.StreamObserver<de.uniba.rz.io.rpc.GetAllTicketResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -496,6 +554,7 @@ public final class TicketServiceGrpc {
               .addMethod(getGetAllTicketMethod())
               .addMethod(getSearchTicketByIdMethod())
               .addMethod(getUpdateTicketStatusServiceMethod())
+              .addMethod(getStreamNewTicketMethod())
               .build();
         }
       }

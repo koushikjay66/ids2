@@ -39,6 +39,11 @@ public final class TicketManagement {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_updateTicket_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_AutoNewTicketRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_AutoNewTicketRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -63,15 +68,18 @@ public final class TicketManagement {
       "ketData\030\001 \003(\0132\013.TicketData\"{\n\014updateTick" +
       "et\022\n\n\002ID\030\001 \001(\005\022$\n\006status\030\002 \001(\0162\024.updateT" +
       "icket.Status\"9\n\006Status\022\007\n\003NEW\020\000\022\014\n\010ACCEP" +
-      "TED\020\001\022\014\n\010REJECTED\020\002\022\n\n\006CLOSED\020\0032\351\001\n\rTick" +
-      "etService\022*\n\014createTicket\022\013.TicketData\032\013" +
-      ".TicketData\"\000\022<\n\014getAllTicket\022\023.TicketRe" +
-      "questEmpty\032\025.GetAllTicketResponse\"\000\0223\n\020S" +
-      "earchTicketById\022\020.TicketIDRequest\032\013.Tick" +
-      "etData\"\000\0229\n\031updateTicketStatusService\022\r." +
-      "updateTicket\032\013.TicketData\"\000B.\n\022de.uniba." +
-      "rz.io.rpcB\020TicketManagementP\001\242\002\003RTGb\006pro" +
-      "to3"
+      "TED\020\001\022\014\n\010REJECTED\020\002\022\n\n\006CLOSED\020\003\"-\n\024AutoN" +
+      "ewTicketRequest\022\025\n\rmax_ticket_id\030\001 \001(\0052\260" +
+      "\002\n\rTicketService\022*\n\014createTicket\022\013.Ticke" +
+      "tData\032\013.TicketData\"\000\022<\n\014getAllTicket\022\023.T" +
+      "icketRequestEmpty\032\025.GetAllTicketResponse" +
+      "\"\000\0223\n\020SearchTicketById\022\020.TicketIDRequest" +
+      "\032\013.TicketData\"\000\0229\n\031updateTicketStatusSer" +
+      "vice\022\r.updateTicket\032\013.TicketData\"\000\022E\n\017St" +
+      "reamNewTicket\022\025.AutoNewTicketRequest\032\025.G" +
+      "etAllTicketResponse\"\000(\0010\001B.\n\022de.uniba.rz" +
+      ".io.rpcB\020TicketManagementP\001\242\002\003RTGb\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -115,6 +123,12 @@ public final class TicketManagement {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_updateTicket_descriptor,
         new java.lang.String[] { "ID", "Status", });
+    internal_static_AutoNewTicketRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_AutoNewTicketRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_AutoNewTicketRequest_descriptor,
+        new java.lang.String[] { "MaxTicketId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
