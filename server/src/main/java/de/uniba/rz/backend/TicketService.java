@@ -129,11 +129,12 @@ public class TicketService extends TicketServiceImplBase{
 				
 				System.out.println("On Next is what!!");
 				List<TicketData> ticktDataList = new ArrayList<TicketData>();
+				System.out.println("Total Ticket is : "+ ticktDataList.size());
 				for(Ticket t : SimpleTicketStore.getTickets()) {
 					ticktDataList.add(Ticket2TicketData(t));
-
 				}
 				Iterable<TicketData> ticktDataIterable=ticktDataList;
+				
 				
 				int i=0;
 				for(StreamObserver<GetAllTicketResponse> observer: connected_clients) {
@@ -149,6 +150,7 @@ public class TicketService extends TicketServiceImplBase{
 				// TODO Auto-generated method stub
 				
 				System.out.println("Got Error in writing the ticket");
+				connected_clients.remove(responseObserver);
 			}
 
 			@Override

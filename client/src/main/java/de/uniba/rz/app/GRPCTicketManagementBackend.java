@@ -66,6 +66,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 
 		TicketData tData = Ticket2TicketData(t);
 		tData = this.syncStub.createTicket(tData);
+		xx();
 		return TicketData2Ticket(tData);
 	}
 
