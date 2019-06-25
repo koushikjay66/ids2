@@ -2,7 +2,7 @@ package de.uniba.rz.app;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 
 import de.uniba.rz.entities.Priority;
 import de.uniba.rz.entities.Status;
@@ -40,13 +40,13 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		this.syncStub=TicketServiceGrpc.newBlockingStub(this.channel);
 		this.asycStub=TicketServiceGrpc.newStub(this.channel);
 
-		xx();
+		broadcastReceiver();
 	}
 
 	/*
 	 * Block that will be responsible to run 
 	 */
-	public void xx() {
+	public void broadcastReceiver() {
 
 		new AutoUpdateFields(this.asycStub).start();
 
@@ -54,7 +54,6 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 	@Override
 	public void triggerShutdown() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 
 		TicketData tData = Ticket2TicketData(t);
 		tData = this.syncStub.createTicket(tData);
-		xx();
+		broadcastReceiver();
 		return TicketData2Ticket(tData);
 	}
 
@@ -96,7 +95,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		b.setID(id);
 		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.ACCEPTED);
 		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
-		xx();
+		broadcastReceiver();
 		return TicketData2Ticket(tdata);
 	}
 
@@ -107,7 +106,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		b.setID(id);
 		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.REJECTED);
 		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
-		xx();
+		broadcastReceiver();
 		return TicketData2Ticket(tdata);
 	}
 
@@ -118,7 +117,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		b.setID(id);
 		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.CLOSED);
 		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
-		xx();
+		broadcastReceiver();
 		return TicketData2Ticket(tdata);
 	}
 
