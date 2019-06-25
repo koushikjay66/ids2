@@ -9,6 +9,7 @@ import de.uniba.rz.entities.Status;
 import de.uniba.rz.entities.Ticket;
 import de.uniba.rz.entities.TicketException;
 import de.uniba.rz.entities.Type;
+import de.uniba.rz.io.rpc.AutoNewTicketRequest;
 import de.uniba.rz.io.rpc.GetAllTicketResponse;
 import de.uniba.rz.io.rpc.TicketData;
 import de.uniba.rz.io.rpc.TicketRequestEmpty;
@@ -19,6 +20,8 @@ import de.uniba.rz.io.rpc.TicketServiceGrpc.TicketServiceStub;
 import de.uniba.rz.io.rpc.updateTicket;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
+import io.grpc.stub.StreamObservers;
 
 public class GRPCTicketManagementBackend implements TicketManagementBackend {
 
@@ -36,6 +39,17 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		this.channel=ManagedChannelBuilder.forAddress(this.host, this.port).usePlaintext().build();
 		this.syncStub=TicketServiceGrpc.newBlockingStub(this.channel);
 		this.asycStub=TicketServiceGrpc.newStub(this.channel);
+
+		xx();
+	}
+
+	/*
+	 * Block that will be responsible to run 
+	 */
+	public void xx() {
+
+		new AutoUpdateFields(this.asycStub).start();
+
 	}
 	@Override
 	public void triggerShutdown() {
@@ -61,8 +75,6 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		System.out.println("Calling to get all tickets");
 		GetAllTicketResponse response = this.syncStub.getAllTicket(TicketRequestEmpty.newBuilder().setID(0).build());
 		List<Ticket> ticketList = new ArrayList<Ticket>();
-		Ticket ticket = new Ticket();
-		System.out.println(response.getTicketDataList().size());
 		for(TicketData t:response.getTicketDataList() ) {
 			ticketList.add(TicketData2Ticket(t));
 		}
@@ -106,6 +118,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		return TicketData2Ticket(tdata);
 	}
 
+
 	/**
 	 * Helper Method ticket to TicketData . For GRPC
 	 */
@@ -137,4 +150,57 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 
 		return ticket;
 	}
+
+	class  AutoUpdateFields extends Thread{
+
+		private final TicketServiceStub asycStub; 
+		
+		public AutoUpdateFields(TicketServiceStub asycStub) {
+			
+			this.asycStub=asycStub;
+		}
+		
+		@Override
+		public void run() {
+			StreamObserver<AutoNewTicketRequest> client_observer = this.asycStub.streamNewTicket(new StreamObserver<GetAllTicketResponse>() {
+
+				@Override
+				public void onNext(GetAllTicketResponse response) {
+					// TODO Auto-generated method stub
+					System.out.println("Got Something");
+					List<Ticket> ticketList = new ArrayList<Ticket>();
+					for(TicketData t:response.getTicketDataList() ) {
+						ticketList.add(TicketData2Ticket(t));
+					}
+					for(Ticket t: ticketList) {	
+						System.out.println("Ticket Creater: " + t.getReporter());
+					}
+					Main.swing_controller.refreshTicketList();
+
+				}
+
+				@Override
+				public void onError(Throwable t) {
+					// TODO Auto-generated method stub
+					System.out.println("Error to retrive auto list from client end.");
+
+				}
+
+				@Override
+				public void onCompleted() {
+					// TODO Auto-generated method stub
+					System.out.println("Got the ticket list Autoupdate");
+
+				}
+			});
+
+			client_observer.onNext(AutoNewTicketRequest.newBuilder().setMaxTicketId(0).build());
+			
+		}
+		
+		
+		
+
+	}
+
 }

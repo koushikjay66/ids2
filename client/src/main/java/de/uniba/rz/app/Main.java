@@ -14,6 +14,8 @@ import de.uniba.rz.ui.swing.SwingMainModel;
  * @see #evaluateArgs(String[])
  */
 public class Main {
+	
+	public static SwingMainController swing_controller;
 
 	/**
 	 * Starts the TicketManagement5000 application based on the given arguments
@@ -29,13 +31,15 @@ public class Main {
 		TicketManagementBackend backendToUse = evaluateArgs(args);
 
 		SwingMainController control = new SwingMainController(backendToUse);
+		
 		SwingMainModel model = new SwingMainModel(backendToUse);
 		MainFrame mf = new MainFrame(control, model);
 
 		control.setMainFrame(mf);
 		control.setSwingMainModel(model);
-
+		swing_controller=control;
 		control.start();
+		
 	}
 
 	/**
