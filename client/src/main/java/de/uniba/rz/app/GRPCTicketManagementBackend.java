@@ -96,6 +96,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		b.setID(id);
 		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.ACCEPTED);
 		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
+		xx();
 		return TicketData2Ticket(tdata);
 	}
 
@@ -106,6 +107,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		b.setID(id);
 		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.REJECTED);
 		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
+		xx();
 		return TicketData2Ticket(tdata);
 	}
 
@@ -116,6 +118,7 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 		b.setID(id);
 		b.setStatus(de.uniba.rz.io.rpc.updateTicket.Status.CLOSED);
 		TicketData tdata = this.syncStub.updateTicketStatusService(b.build());
+		xx();
 		return TicketData2Ticket(tdata);
 	}
 
