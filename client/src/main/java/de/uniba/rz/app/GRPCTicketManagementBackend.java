@@ -54,6 +54,16 @@ public class GRPCTicketManagementBackend implements TicketManagementBackend {
 	@Override
 	public void triggerShutdown() {
 		// TODO Auto-generated method stub
+		if(!this.channel.isShutdown()) {
+			
+			try {
+				this.channel.shutdown().awaitTermination(500, TimeUnit.MILLISECONDS);
+			} catch (InterruptedException e) {
+				System.err.println("Cant shutdown client. Check log");
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
